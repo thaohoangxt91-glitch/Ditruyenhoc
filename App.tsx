@@ -1,14 +1,14 @@
 
 import React, { useState } from 'react';
-import { AppView } from './types';
-import Dashboard from './components/Dashboard';
-import Lesson33 from './components/Lesson33';
-import Lesson34 from './components/Lesson34';
-import Lesson35 from './components/Lesson35';
-import Lesson36 from './components/Lesson36';
-import QuizModule from './components/QuizModule';
-import GameCenter from './components/GameCenter';
-import Header from './components/Header';
+import { AppView } from './types.ts';
+import Dashboard from './components/Dashboard.tsx';
+import Lesson33 from './components/Lesson33.tsx';
+import Lesson34 from './components/Lesson34.tsx';
+import Lesson35 from './components/Lesson35.tsx';
+import Lesson36 from './components/Lesson36.tsx';
+import QuizModule from './components/QuizModule.tsx';
+import GameCenter from './components/GameCenter.tsx';
+import Header from './components/Header.tsx';
 import { BookOpen, Activity, LayoutDashboard, BrainCircuit, Gamepad2, Layers, GitBranch } from 'lucide-react';
 
 const App: React.FC = () => {
