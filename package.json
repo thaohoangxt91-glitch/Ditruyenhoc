@@ -1,5 +1,5 @@
 {
-  "name": "khtn-9---di-truyền-học-cánh-diều",
+  "name": "copy-of-khtn-9---vật-sống-(cánh-diều)",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,10 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "lucide-react": "^0.562.0",
-    "three": "^0.182.0",
-    "react": "^19.2.3"
+    "@google/genai": "^1.34.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

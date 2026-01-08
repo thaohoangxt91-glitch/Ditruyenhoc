@@ -1,63 +1,68 @@
 
-import React, { useState } from 'react';
-import { AppView } from './types.ts';
-import Dashboard from './components/Dashboard.tsx';
-import Lesson33 from './components/Lesson33.tsx';
-import Lesson34 from './components/Lesson34.tsx';
-import Lesson35 from './components/Lesson35.tsx';
-import Lesson36 from './components/Lesson36.tsx';
-import QuizModule from './components/QuizModule.tsx';
-import GameCenter from './components/GameCenter.tsx';
-import Header from './components/Header.tsx';
-import { BookOpen, Activity, LayoutDashboard, BrainCircuit, Gamepad2, Layers, GitBranch } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { Lesson } from './types';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import LessonDetail from './components/LessonDetail';
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<AppView>(AppView.DASHBOARD);
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
 
-  const renderContent = () => {
-    switch (currentView) {
-      case AppView.DASHBOARD: return <Dashboard onNavigate={setCurrentView} />;
-      case AppView.LESSON_33: return <Lesson33 />;
-      case AppView.LESSON_34: return <Lesson34 />;
-      case AppView.LESSON_35: return <Lesson35 />;
-      case AppView.LESSON_36: return <Lesson36 />;
-      case AppView.QUIZ: return <QuizModule onComplete={() => {}} />;
-      case AppView.GAME: return <GameCenter />;
-      default: return <Dashboard onNavigate={setCurrentView} />;
-    }
-  };
+  const handleSelectLesson = useCallback((lesson: Lesson) => {
+    setSelectedLesson(lesson);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const handleGoHome = useCallback(() => {
+    setSelectedLesson(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <Header />
-      <div className="flex flex-1 overflow-hidden">
-        <nav className="w-20 md:w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm">
-          <div className="p-4 space-y-2 overflow-y-auto">
-            <NavButton active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} icon={<LayoutDashboard size={20} />} label="Tổng quan" />
-            <div className="pt-4 pb-2 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider hidden md:block">Bài học</div>
-            <NavButton active={currentView === AppView.LESSON_33} onClick={() => setCurrentView(AppView.LESSON_33)} icon={<BookOpen size={20} />} label="Bài 33: Gene & DNA" />
-            <NavButton active={currentView === AppView.LESSON_34} onClick={() => setCurrentView(AppView.LESSON_34)} icon={<Activity size={20} />} label="Bài 34: Các quá trình" />
-            <NavButton active={currentView === AppView.LESSON_35} onClick={() => setCurrentView(AppView.LESSON_35)} icon={<Layers size={20} />} label="Bài 35: NST" />
-            <NavButton active={currentView === AppView.LESSON_36} onClick={() => setCurrentView(AppView.LESSON_36)} icon={<GitBranch size={20} />} label="Bài 36: Phân bào" />
-            <div className="pt-4 pb-2 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider hidden md:block">Công cụ</div>
-            <NavButton active={currentView === AppView.QUIZ} onClick={() => setCurrentView(AppView.QUIZ)} icon={<BrainCircuit size={20} />} label="Kiểm tra" />
-            <NavButton active={currentView === AppView.GAME} onClick={() => setCurrentView(AppView.GAME)} icon={<Gamepad2 size={20} />} label="Trò chơi" />
+    <div className="min-h-screen flex flex-col bg-emerald-50/30">
+      <Navbar 
+        onGoHome={handleGoHome} 
+        currentLessonTitle={selectedLesson?.title}
+      />
+      
+      <main className="flex-grow pb-20">
+        {!selectedLesson ? (
+          <Home onSelectLesson={handleSelectLesson} />
+        ) : (
+          <LessonDetail 
+            lesson={selectedLesson} 
+            onBack={handleGoHome} 
+          />
+        )}
+      </main>
+
+      <footer className="bg-emerald-800 text-emerald-100 py-10 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="flex justify-center items-center mb-6">
+            <div className="bg-white p-2 rounded-xl mr-3 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h4 className="text-xl font-bold tracking-tight">KHTN 9 - Cánh Diều</h4>
           </div>
-        </nav>
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div className="max-w-6xl mx-auto">{renderContent()}</div>
-        </main>
-      </div>
-      <footer className="bg-white border-t border-slate-200 p-3 text-center text-sm text-slate-500">© 2024 Khoa học Tự nhiên 9 - Cánh Diều</footer>
+          <p className="text-sm opacity-80 mb-2">Hỗ trợ chương trình GDPT 2018 - Mạch kiến thức Vật sống</p>
+          <p className="text-xs opacity-60">© 2024 • Ứng dụng giáo dục thông minh • Made with Passion</p>
+        </div>
+      </footer>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          75% { transform: translateX(5px); }
+        }
+        .animate-shake {
+          animation: shake 0.4s ease-in-out infinite;
+        }
+      `}} />
     </div>
   );
 };
-
-const NavButton = ({ active, onClick, icon, label }: any) => (
-  <button onClick={onClick} className={`w-full flex items-center p-3 rounded-xl transition-all group ${active ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-600 hover:bg-slate-100'}`}>
-    <span className={active ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}>{icon}</span>
-    <span className="ml-3 font-medium hidden md:block text-sm">{label}</span>
-  </button>
-);
 
 export default App;

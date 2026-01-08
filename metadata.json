@@ -1,7 +1,5 @@
 {
-  "name": "KHTN 9 - Di truyền học Cánh Diều",
-  "description": "Website học tập tương tác về Gene, DNA, RNA và các quá trình di truyền (Bài 33 & 34) theo chương trình GDPT 2018.",
-  "requestFramePermissions": [
-    "camera"
-  ]
+  "name": "Copy of KHTN 9 - Vật Sống (Cánh Diều)",
+  "description": "Ứng dụng học tập tương tác môn Khoa học Tự nhiên lớp 9, phần Vật sống theo chương trình sách giáo khoa Cánh Diều.",
+  "requestFramePermissions": []
 }
